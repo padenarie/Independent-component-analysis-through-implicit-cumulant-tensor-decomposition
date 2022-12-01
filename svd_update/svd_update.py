@@ -452,64 +452,64 @@ def find_roots(sigmas, m_vec, method=1):
 
         return np.array(roots)
 
-    if method == 2: # Imported lapack function                                                                                  ## EDITED: added code from github forum
-            d = sigmas[::-1]
-            z = m_vec[::-1]
-            roots = np.empty_like(d)
-            for i in range(len(sigmas)):
-                delta, roots[i], work, info = sp.linalg.lapack.dlasd4(i, d, z)
-                if (info > 0) or np.isnan(roots[i]):
-                    raise ValueError("LAPACK root finding dlasd4 failed at {}-th sigma".format(i))
-            return roots[::-1]
+#     if method == 2: # Imported lapack function                                                                                  ## EDITED: added code from github forum
+#             d = sigmas[::-1]
+#             z = m_vec[::-1]
+#             roots = np.empty_like(d)
+#             for i in range(len(sigmas)):
+#                 delta, roots[i], work, info = sp.linalg.lapack.dlasd4(i, d, z)
+#                 if (info > 0) or np.isnan(roots[i]):
+#                     raise ValueError("LAPACK root finding dlasd4 failed at {}-th sigma".format(i))
+#             return roots[::-1]
 
-    # if method == 2: # Imported lapack function
-    #     it_len = len(sigmas)
-    #     sgm = np.concatenate((sigmas[::-1], (sigmas[0] + it_len*np.sqrt(np.sum( np.power(m_vec,2))),)))
-    #     mvc = np.concatenate((m_vec[::-1], (0,)))
-    #     roots = []
+    if method == 2: # Imported lapack function
+        it_len = len(sigmas)
+        sgm = np.concatenate((sigmas[::-1], (sigmas[0] + it_len*np.sqrt(np.sum( np.power(m_vec,2))),)))
+        mvc = np.concatenate((m_vec[::-1], (0,)))
+        roots = []
 
-    #     if (sigmas[-1] < epsilon1) and (sigmas[-2] < epsilon1): # two zeros at the end
-    #         it_start = 2
-    #         prepend_zero = True
-    #     else:
-    #         it_start = 1
-    #         prepend_zero = False
+        if (sigmas[-1] < epsilon1) and (sigmas[-2] < epsilon1): # two zeros at the end
+            it_start = 2
+            prepend_zero = True
+        else:
+            it_start = 1
+            prepend_zero = False
 
-    #     #sigmas_minus_i = [] # ( sigmas - new_sigmas[i] ) needed for singular vector construction
-    #     #sigmas_plus_i = []  # ( sigmas + new_sigmas[i] ) needed for singular vector construction
-    #     for i in range(it_start, it_len): # find all singular except the last
-    #         res = sp.linalg.lapack.dlasd4(i, sgm, mvc)
-    #      #  sigmas_minus_i.append( res[0][0:-1] )
-    #         roots.append(res[1])
-    #      #  sigmas_plus_i.append( res[2][0:-1] )
+        #sigmas_minus_i = [] # ( sigmas - new_sigmas[i] ) needed for singular vector construction
+        #sigmas_plus_i = []  # ( sigmas + new_sigmas[i] ) needed for singular vector construction
+        for i in range(it_start, it_len): # find all singular except the last
+            res = sp.linalg.lapack.dlasd4(i, sgm, mvc)
+         #  sigmas_minus_i.append( res[0][0:-1] )
+            roots.append(res[1])
+         #  sigmas_plus_i.append( res[2][0:-1] )
 
-    #     # OWN CODE                                                                                                                      ## EDITED THIS BY TURNING nan into 0
-    #     roots2 = np.array(roots)
-    #     roots2[np.isnan(roots2)] = 0
-    #     roots = list(roots2)
+        # OWN CODE                                                                                                                      ## EDITED THIS BY TURNING nan into 0
+        roots2 = np.array(roots)
+        roots2[np.isnan(roots2)] = 0
+        roots = list(roots2)
 
-    #     # find last singular value ->
-    #     max_iter_last = 10; iter_no = 0
-    #     exit_crit = False
-    #     while not exit_crit:
-    #         # print('it_len:',it_len,sgm,mvc)
-    #         res = sp.linalg.lapack.dlasd4(it_len-1, sgm, mvc)                                                                   ### EDITED THIS BY ADDING -1 to it_len
-    #         # print('res:',res)
+        # find last singular value ->
+        max_iter_last = 10; iter_no = 0
+        exit_crit = False
+        while not exit_crit:
+            # print('it_len:',it_len,sgm,mvc)
+            res = sp.linalg.lapack.dlasd4(it_len-1, sgm, mvc)                                                                   ### EDITED THIS BY ADDING -1 to it_len
+            # print('res:',res)
 
-    #         if (res[3] == 0) or (iter_no >= max_iter_last):
-    #             exit_crit = True
-    #         else:
-    #             sgm[-1] = 10 * sgm[-1]
-    #             iter_no += 1
+            if (res[3] == 0) or (iter_no >= max_iter_last):
+                exit_crit = True
+            else:
+                sgm[-1] = 10 * sgm[-1]
+                iter_no += 1
 
-    #     if  (res[3] > 0) or np.any(np.isnan(roots)):
-    #         raise ValueError("LAPACK root finding dlasd4 failed to find the last singular value")
+        if  (res[3] > 0) or np.any(np.isnan(roots)):
+            raise ValueError("LAPACK root finding dlasd4 failed to find the last singular value")
 
-    #     else:
-    #         if iter_no > 1:
-    #             print("Iters:  ", iter_no)
-    #         roots.append(res[1]) # append the last singular value
-    #     # find last singular value <-
+        else:
+            if iter_no > 1:
+                print("Iters:  ", iter_no)
+            roots.append(res[1]) # append the last singular value
+        # find last singular value <-
 
     #     if prepend_zero:
     #         roots = [0.0,] + roots
