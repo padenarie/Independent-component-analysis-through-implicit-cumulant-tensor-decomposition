@@ -4,7 +4,7 @@ Python files used for the master thesis. The **myCumulantfunctions.py** and **my
 ##**USERGUIDE**:
 The following steps must be performed in order for all files to work.
 - Store a copy of the FastICA implementation from sklearn and replace its contents with that of **FASTICA_edited.py**.
-- Install the SVD-update package. This can be dnoe directly from https://github.com/AlexGrig/svd_update. However, when doing so the ]second method in function 'find_roots' (file svd_update.py, line 452-497) must be replaced with the following code:
+- Install the SVD-update package. This can be done directly from https://github.com/AlexGrig/svd_update. However, when doing so the ]second method in function 'find_roots' (file svd_update.py, line 452-497) must be replaced with the following code:
 
 ```
  if method == 2: # Imported lapack function
