@@ -17,8 +17,8 @@ The following steps must be performed in order for all files to work.
                 raise ValueError("LAPACK root finding dlasd4 failed at {}-th sigma".format(i))
         return roots[::-1]
 ```
-
-Alternaively, the SVD-package in the **svd_update** folder in this repository can be used.
+Due to changes in the scipy package after 2013 python versions of 3.5 and above do not work properly with the lapack dlasd4 routine.
+Alternatively, the SVD-package in the **svd_update** folder in this repository can be used. It must be stated that the fix in this version of the svd-updater has only been used with Python 3.10.2 64 bit.
 
 - When using the data-sets for plotting. The files must be in the same directory as **plot_finalcomps.ipynb** or an additional statement must be added to the top of the code where the files can be found.
 
@@ -62,3 +62,7 @@ The file in which the numerical experiments are performed. The file produces the
 **plot_finalcomps.ipynb**:
 The file in which the final plots of the thesis are produced. The file combines the .mat files of experiments with varying initializations schemes such that these results can be ploted next to each other for comparison.
 
+
+
+## Experiment setup:
+All numerical experiments were obtained on a HP Zbook 15 2015 edition with a Intel(R) Core(TM) i7-4700MQ CPU @ 2.50GHz with 8.00 GB DDR3 ram. A 64 bit operating system was used: Windows 10 Home version 22H2 OS build 19045.2251.
