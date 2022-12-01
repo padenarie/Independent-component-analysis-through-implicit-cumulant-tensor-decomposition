@@ -1,15 +1,15 @@
 # Independent-component-analysis-through-implicit-cumulant-tensor-decomposition
-Python files used for the master thesis.
+Python files used for the master thesis. The **myCumulantfunctions.py** and **myTensorfunctions.py** are python files containing functions devised and used throughout this thesis. The sources and definitions of the multi-linear functions in **myTensorfunctions.py** can be found in the thesis PDF. The functions in **myCumulantfunctions.py** have been given a description.
 
 The repository contains the following:
 **master thesis in PDF**
 This is the master thesis for which the provided code has been used to perform the numerical experiments.
 
 **myCumulantfunctions.py**
-This file contains the ICA and BSS functions that were used during the making of this thesis. The following functions are the final ones:
-- cum4tensor3            , create the cumulant tensor of data array X
-- testset                , create an instance of the artificial testset. 
-- Errorfunc              , function used to evaluate the estimated results of an algorithm.
+This file contains the ICA and BSS functions that were used during the making of this thesis. The following functions are the important ones:
+- cum4tensor3            , create the cumulant tensor of data array X.
+- testset                , create an instance of the artificial testset used in the testset.
+- Errorfunc              , function used to evaluate the estimated results of an algorithm. Additionally sorts and determines the correct sign of each solution if classiifed as correct.
 - IMPCPDfunOPT           , the computation of the gradients of the CP-gradient method. This can be used with the scipy.optimize solver package
 - symIMPCPDff            , the CP-fixed-point algorithm 
 - symIMPCPDffWHITEFAST   , the CP-fixed-point algorithm for whitened data, is faster than the previous function
